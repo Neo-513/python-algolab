@@ -14,47 +14,68 @@
    <string>几何拟合</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_panel">
       <item>
-       <widget class="QRadioButton" name="radioButton_monalisa">
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
+       <widget class="QFrame" name="frame_radio">
+        <property name="frameShape">
+         <enum>QFrame::Shape::NoFrame</enum>
         </property>
-        <property name="text">
-         <string>蒙娜丽莎</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="radioButton_firefox">
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="text">
-         <string>火狐</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="radioButton_darwin">
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="text">
-         <string>达尔文</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="radioButton_custom">
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="text">
-         <string>自选</string>
-        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_radio">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QRadioButton" name="radioButton_monalisa">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="text">
+            <string>蒙娜丽莎</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButton_firefox">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="text">
+            <string>火狐</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButton_darwin">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="text">
+            <string>达尔文</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButton_custom">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="text">
+            <string>自选</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>
@@ -121,21 +142,18 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_canvas">
       <item>
-       <widget class="QGroupBox" name="groupBox_reference">
+       <widget class="QGroupBox" name="groupBox_ref">
         <property name="title">
          <string>原图</string>
         </property>
-        <layout class="QGridLayout" name="gridLayout_reference">
+        <layout class="QGridLayout" name="gridLayout_ref">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_reference">
+          <widget class="QLabel" name="label_ref">
            <property name="minimumSize">
             <size>
              <width>128</width>
              <height>128</height>
             </size>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
           </widget>
          </item>
@@ -143,21 +161,18 @@
        </widget>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox_approximation0">
+       <widget class="QGroupBox" name="groupBox_approx0">
         <property name="title">
          <string>拟合1</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_approx0">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_approximation0">
+          <widget class="QLabel" name="label_approx0">
            <property name="minimumSize">
             <size>
              <width>128</width>
              <height>128</height>
             </size>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
           </widget>
          </item>
@@ -165,21 +180,18 @@
        </widget>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox_approximation1">
+       <widget class="QGroupBox" name="groupBox_approx1">
         <property name="title">
          <string>拟合2</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_approx1">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_approximation1">
+          <widget class="QLabel" name="label_approx1">
            <property name="minimumSize">
             <size>
              <width>128</width>
              <height>128</height>
             </size>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
           </widget>
          </item>
@@ -187,21 +199,18 @@
        </widget>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox_approximation2">
+       <widget class="QGroupBox" name="groupBox_approx2">
         <property name="title">
          <string>拟合3</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_approx2">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_approximation2">
+          <widget class="QLabel" name="label_approx2">
            <property name="minimumSize">
             <size>
              <width>128</width>
              <height>128</height>
             </size>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
           </widget>
          </item>
