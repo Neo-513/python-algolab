@@ -7,7 +7,7 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QFileDialog, QMainWindow
 from shared import util
 
-from core import phase
+from core.advancer import STAGES
 from core.runner import Runner
 from core.visualizer import Visualizer
 from ui.gui_ui import Ui_MainWindow
@@ -56,7 +56,7 @@ class Gui(QMainWindow, Ui_MainWindow):
 	def ref_load(path, dtype=np.uint8):
 		reference = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2RGB)
 		reference_pool = {}
-		for stage in phase.STAGES:
+		for stage in STAGES:
 			resized_reference = cv2.resize(reference, (stage.resolution, stage.resolution))
 			blurred_reference = cv2.GaussianBlur(resized_reference, (stage.blur_kernel_size, stage.blur_kernel_size), 0)
 			reference_pool[stage.resolution] = blurred_reference.astype(dtype)
@@ -64,7 +64,9 @@ class Gui(QMainWindow, Ui_MainWindow):
 
 	def run_toggle(self):
 		if not self.visualizer.reference_pool:
-			return util.popup("请选择图片", f"{util.RESOURCE}/error")
+			util.popup("请选择图片", f"{util.RESOURCE}/error")
+			return
+
 		if self.is_running:
 			self.run_stop()
 		else:
