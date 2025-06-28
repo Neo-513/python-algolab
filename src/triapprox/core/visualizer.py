@@ -8,7 +8,7 @@ from PyQt6.QtCore import QRect
 from PyQt6.QtGui import QImage, QPainter, QPixmap
 from PyQt6.QtWidgets import QLabel
 
-from .phase import FINAL_RESOLUTION, STAGES
+from .advancer import FINAL_RESOLUTION, STAGES
 from .runner import MAX_ITERATION, STRATEGIES
 
 CURVE_COLORS = ("r", "g", "y")
@@ -56,9 +56,9 @@ class Visualizer:
 		log_console = pg.TextItem(anchor=(-0.8, 1.2))
 		plot_widget.addItem(log_console)
 
-		for i in range(len(STRATEGIES)):
+		for i in range(len(STRATEGIES[:1])):
 			tracer = Tracer(
-				display=getattr(self1, f"label_approximation{i}"),
+				display=getattr(self1, f"label_approx{i}"),
 				chart_curve=plot_widget.plot([], [], pen=CURVE_COLORS[i], name=f"拟合{i + 1}"),
 				chart_cursor=pg.TextItem(anchor=(0, 1), color=CURVE_COLORS[i]),
 				log_console=log_console,
@@ -81,20 +81,22 @@ class Visualizer:
 			self.ptr_pool[res].setsize(res * res * 3)
 			self.view_pool[res] = np.ndarray((res, res, 3), dtype=np.uint8, buffer=self.ptr_pool[res])
 
-	def refresh(self, trace, iteration, metric, resolution, approximation_data):
-		trace.iterations.append(iteration)
-		trace.metrics.append(metric)
+	def refresh(self, trace, snapshot):
+
+		trace.iterations.append(snapshot.iteration)
+		trace.metrics.append(snapshot.metric)
 		trace.tracer.chart_curve.setData(trace.iterations, trace.metrics)
 
-		trace.tracer.chart_cursor.setText(f"{metric:.4f}")
+
+		trace.tracer.chart_cursor.setText(f"{snapshot.metric:.4f}")
 		trace.tracer.chart_cursor.setPos(trace.iterations[-1], trace.metrics[-1])
 
-		if approximation_data is not None:
-			self.render(trace.tracer.display, img_data=approximation_data, resolution=resolution)
+		if snapshot.approximation is not None:
+			self.render(trace.tracer.display, img_data=snapshot.approximation, resolution=STAGES[snapshot.stage].resolution)
 
-		trace.tracer.log_status[0][trace.trace_id + 1] = f"{iteration}"
-		trace.tracer.log_status[1][trace.trace_id + 1] = f"{resolution}"
-		trace.tracer.log_status[2][trace.trace_id + 1] = f"{metric:.4f}"
+		trace.tracer.log_status[0][trace.trace_id + 1] = f"{snapshot.iteration}"
+		trace.tracer.log_status[1][trace.trace_id + 1] = f"{STAGES[snapshot.stage].resolution}"
+		trace.tracer.log_status[2][trace.trace_id + 1] = f"{snapshot.metric:.4f}"
 		trace.tracer.log_console.setText("\n".join("\t".join(log) for log in trace.tracer.log_status))
 
 		# 	f"coord_pert\t{self.approximation_thread.approximator.perturbation[0]}\n"
