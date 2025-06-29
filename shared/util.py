@@ -4,7 +4,7 @@ import pickle
 import sys
 
 from PyQt6.QtCore import QSize, Qt, QTimer
-from PyQt6.QtGui import QIcon, QPixmap
+from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QMessageBox, QToolButton
 
 RESOURCE = os.path.join(getattr(sys, "_MEIPASS", ""), "resource").replace("\\", "/")
@@ -33,13 +33,6 @@ def popup(msg, icon):
 	return message_box.exec() == QMessageBox.StandardButton.Yes
 
 
-def fill(label, color=Qt.GlobalColor.transparent, create=False):
-	pixmap = QPixmap(label.minimumSize()) if create else label.pixmap()
-	pixmap.fill(color)
-	label.setPixmap(pixmap)
-	return pixmap
-
-
 def poller(interval, func):
 	timer = QTimer()
 	timer.setInterval(interval)
@@ -64,10 +57,10 @@ def read(file_path):
 		with open(file_path, mode="rb") as file:
 			datas = pickle.load(file)
 	elif file_type == ".json":
-		with open(file_path, mode="r", encoding="utf-8") as file:
+		with open(file_path, encoding="utf-8") as file:
 			datas = json.load(file)
 	else:
-		with open(file_path, mode="r", encoding="utf-8") as file:
+		with open(file_path, encoding="utf-8") as file:
 			datas = file.read()
 	return datas
 
