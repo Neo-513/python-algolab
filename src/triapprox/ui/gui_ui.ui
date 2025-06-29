@@ -24,7 +24,7 @@
           <property name="frameShape">
            <enum>QFrame::Shape::NoFrame</enum>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <layout class="QHBoxLayout" name="horizontalLayout_radio">
            <property name="leftMargin">
             <number>0</number>
            </property>
