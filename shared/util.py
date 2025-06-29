@@ -40,11 +40,11 @@ def poller(interval, func):
 	return timer
 
 
-def ticker(widget):
+def ticker(push_button):
 	def tick():
 		timer.second += 1
 		h, m, s = timer.second // 3600, (timer.second // 60) % 60, timer.second % 60
-		widget.setText(f"{h:02}:{m:02}:{s:02}")
+		push_button.setText(f"{h:02}:{m:02}:{s:02}")
 
 	timer = poller(1000, tick)
 	timer.second = 0
