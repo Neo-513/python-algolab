@@ -76,3 +76,25 @@ class Approximator:
 				self.perturb.vertices = strategy.perturb.vertices
 				self.perturb.color = strategy.perturb.color
 				return
+
+	def step_greedy(self):
+		if self.proposal.metric > self.accepted.metric:
+			self.accept()
+
+	# def step_sa(self, iteration):
+	# 	delta = self.proposal.metric - self.accepted.metric
+	#
+	# 	T0 = 0.01 * (1.0 - 0.15 * self.stage)  # 初始温度越晚stage越冷
+	# 	decay = 0.00005
+	# 	T = max(T0 * np.exp(-decay * iteration), 1e-6)
+	#
+	# 	accepted = False
+	# 	if delta > 0:
+	# 		accepted = True
+	# 	else:
+	# 		probability = np.exp(delta / T)  # 注意 delta 为负
+	# 		if np.random.rand() < probability:
+	# 			accepted = True
+	#
+	# 	if accepted:
+	# 		self.accept()
