@@ -5,7 +5,7 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QFileDialog, QMainWindow
 from shared import util
 
-from core.advancer import StageConfig
+from core import constants
 from core.visualizer import Builder, Loader, Refresher, Renderer
 from core.worker import Worker
 from ui.gui_ui import Ui_MainWindow
@@ -30,7 +30,7 @@ class Gui(QMainWindow, Ui_MainWindow):
 
 		self.is_running = False
 		self.timer = util.ticker(self.pushButton)
-		self.worker = self.reference_pool = self.selected_radio = None
+		self.worker = self.ref_pool = self.selected_radio = None
 		self.radioButton_monalisa.click()
 
 	def on_radio_clicked(self, radio, ref_name):
@@ -40,8 +40,8 @@ class Gui(QMainWindow, Ui_MainWindow):
 			ref_path = f"{util.RESOURCE}/{ref_name}.png"
 
 		if ref_path:
-			self.reference_pool = Loader.load_reference_pool(ref_path)
-			Renderer.render_ref(self.viewport, self.reference_pool[StageConfig.FINAL_RESOLUTION])
+			self.ref_pool = Loader.load_ref_pool(ref_path)
+			Renderer.render(self.viewport, self.ref_pool[constants.FINAL_RESOLUTION])
 			self.selected_radio = radio
 		else:
 			self.selected_radio.click()
@@ -60,7 +60,7 @@ class Gui(QMainWindow, Ui_MainWindow):
 		self.trace.metrics.clear()
 		self.trace.curve.clear()
 
-		self.worker = Worker(self.reference_pool)
+		self.worker = Worker(self.ref_pool)
 		self.worker.snapshot_ready.connect(lambda snapshot: Refresher.refresh_plot(self.trace, snapshot))
 		self.worker.snapshot_ready.connect(lambda snapshot: Refresher.refresh_canvas(self.viewport, snapshot))
 		self.worker.start()
