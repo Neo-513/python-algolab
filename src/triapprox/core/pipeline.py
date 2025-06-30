@@ -2,20 +2,22 @@ import cv2
 import numpy as np
 
 
-def rasterize(proposal, rgba2bgra=(2, 1, 0, 3)):
+def rasterize(proposal):
 	proposal.patch.fill(0)
-	cv2.fillPoly(proposal.patch, [proposal.vertices.reshape(-1, 2)], proposal.color[list(rgba2bgra)].tolist())
+	cv2.fillPoly(proposal.patch, [proposal.vertices.reshape(-1, 2)], proposal.color.tolist())
 	proposal.texture = proposal.patch[..., :3].copy()
 	proposal.mask = proposal.patch[..., 3:].copy() / 255
 	proposal.invmask = 1 - proposal.mask
 
 
-def perturb(proposal, prob, perturbation, resolution):
+def disturb(proposal, prob, perturb, resolution):
 	if prob >= 0.5:
-		proposal.vertices = proposal.vertices + np.random.randint(-perturbation[0], perturbation[0] + 1, size=proposal.vertices.shape[0])
+		noise = np.random.randint(-perturb.vertices, perturb.vertices + 1, size=proposal.vertices.shape[0])
+		proposal.vertices = proposal.vertices + noise
 		np.clip(proposal.vertices, 0, resolution - 1, out=proposal.vertices)
 	else:
-		proposal.color = proposal.color + np.random.randint(-perturbation[1], perturbation[1] + 1, size=proposal.color.shape[0])
+		noise = np.random.randint(-perturb.color, perturb.color + 1, size=proposal.color.shape[0])
+		proposal.color = proposal.color + noise
 		np.clip(proposal.color, 0, 255, out=proposal.color)
 
 
