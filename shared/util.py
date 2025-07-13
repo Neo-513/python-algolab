@@ -2,16 +2,19 @@ import json
 import os
 import pickle
 import sys
+from functools import wraps
 
 from PyQt6.QtCore import QSize, Qt, QTimer
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QMessageBox, QToolButton
-
-RESOURCE = os.path.join(getattr(sys, "_MEIPASS", ""), "resource").replace("\\", "/")
+from PyQt6.QtWidgets import QApplication, QMessageBox, QToolButton
 
 
 def cast(obj):
 	return obj
+
+
+def resource(res):
+	return os.path.join(getattr(sys, "_MEIPASS", ""), "resource").replace("\\", "/") + "/" + res
 
 
 def buttonize(push_button, func, icon, tip=None, ico_size=None):
@@ -28,7 +31,7 @@ def popup(msg, icon):
 	message_box.setText(msg)
 	message_box.setWindowIcon(QIcon(icon))
 	message_box.setWindowTitle(" ")
-	if icon.endswith("warning"):
+	if "warning" in icon:
 		message_box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
 	return message_box.exec() == QMessageBox.StandardButton.Yes
 
@@ -76,3 +79,15 @@ def write(file_path, datas):
 	else:
 		with open(file_path, mode="w", encoding="utf-8") as file:
 			file.write(datas)
+
+
+def graphic(func):
+	@wraps(func)
+	def wrapper(*args, **kwargs):
+		app = QApplication([])
+		try:
+			result = func(*args, **kwargs)
+			return result
+		finally:
+			app.quit()
+	return wrapper
