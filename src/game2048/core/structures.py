@@ -8,8 +8,8 @@ from PyQt6.QtWidgets import QLabel
 
 @dataclass(slots=True, kw_only=True)
 class Viewport:
-	canvas:         Optional[QPixmap] = None
-	viewer:         Optional[QLabel] = None
+	canvas: Optional[QPixmap] = None
+	viewer: Optional[QLabel] = None
 
 
 @dataclass(slots=True, kw_only=True)
